@@ -8,7 +8,7 @@ module.exports = {
 
   themeConfig: {
     logo: 'https://vuejs.org/images/logo.png',
-    repo: 'vuejs/vuepress',
+    repo: 'WebGhan/gaohan-note',
     nav: [
       {
         text: '指南',

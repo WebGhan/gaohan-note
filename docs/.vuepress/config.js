@@ -1,5 +1,5 @@
 module.exports = {
-  lang: 'zh-CN',
+  base: '/gaohan-note/',
   title: '前端笔记',
   description: '高寒的前端笔记',
   head: [

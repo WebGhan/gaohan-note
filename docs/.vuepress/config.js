@@ -7,28 +7,26 @@ module.exports = {
   ],
 
   themeConfig: {
-    logo: 'https://vuejs.org/images/logo.png',
     repo: 'WebGhan/gaohan-note',
     nav: [
       {
-        text: '指南',
+        text: '项目指南',
         link: '/guide/',
       },
-      {
-        text: '规范',
-        link: '/standard/',
-      }
+      // {
+      //   text: '规范',
+      //   link: '/standard/',
+      // }
     ],
     sidebar: {
       '/guide/': [{
-        title: '指南',
+        title: 'Vue 项目',
         collapsable: false,
         sidebarDepth: 2,
         children: [
           '',
-          'child1',
-          'getting-started',
-          'markdown',
+          'style-guide.md',
+          'new-page.md',
         ]
       }],
       '/standard/': [{
@@ -44,6 +42,6 @@ module.exports = {
       }]
     },
     editLinkText: '在 GitHub 上编辑此页',
-    lastUpdated: '上次更新',
+    smoothScroll: true
   }
 }

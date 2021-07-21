@@ -8,15 +8,15 @@ footer: MIT Licensed | Copyright © 2021-present Gao Han
 
 <div class="features">
   <div class="feature">
-    <h2>Simplicity First</h2>
-    <p>Minimal setup with markdown-centered project structure helps you focus on writing.</p>
+    <h2>标准化</h2>
+    <p>提高生活品质</p>
   </div>
   <div class="feature">
-    <h2>Vue-Powered</h2>
-    <p>Enjoy the dev experience of Vue + webpack, use Vue components in markdown, and develop custom themes with Vue.</p>
+    <h2>工程化</h2>
+    <p>躺着，把活干了</p>
   </div>
   <div class="feature">
-    <h2>Performant</h2>
-    <p>VuePress generates pre-rendered static HTML for each page, and runs as an SPA once a page is loaded.</p>
+    <h2>心得</h2>
+    <p>闷声大发财</p>
   </div>
 </div>

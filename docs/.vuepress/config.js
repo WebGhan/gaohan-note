@@ -1,7 +1,7 @@
 module.exports = {
   base: '/gaohan-note/',
   title: '前端笔记',
-  description: '高寒的前端笔记',
+  description: '只争朝夕，不负韶华',
   head: [
     ['link', { rel: 'icon', href: '/hero.png' }]
   ],

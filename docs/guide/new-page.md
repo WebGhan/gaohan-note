@@ -1,10 +1,21 @@
 # 新增页面
 
+项目比较复杂时，我们需要将页面按不同模块进行分组，这样不仅便于维护，用户使用起来也清晰明了。
+
 ## 新增 route
 
-首先在 `@/router/index.js` 中增加你需要添加的路由。
+首先在 `@/router` 中增加你需要添加的路由，我们将不同的模块拆分到 `@/router/modules` 中去。
 
-如：新增一个 excel 页面
+如：新增一个 Client 模块，里面包含「客户列表页」和「客户标签页」
+
+```
+router/
+|- modules/
+   |- client.js
+|- index.js
+```
+
+`@/router/modules/client.js`
 
 ```js
 import Layout from '@/layout'
@@ -30,17 +41,12 @@ const ClientRouter = {
       name: 'ClientTags',
       component: () => import('@/views/client/tags/index'),
       meta: { title: '客户标签' }
-    },
-    {
-      path: 'address',
-      name: 'ClientAddress',
-      component: () => import('@/views/client/address/index'),
-      meta: { title: '地址管理' }
     }
   ]
 }
-export default UserRouter
+export default ClientRouter
 ```
+
 
 ## 新增 view
 
@@ -55,8 +61,6 @@ client/
    |- index.vue
 |- tags/
    |- index.vue
-|- address/
-   |- index.vue
 ```
 
 
@@ -64,10 +68,21 @@ client/
 
 全局的 `@/components` 只应当放一些全局的组件，如富文本、图片管理、封装的分页组件等等能被公用的组件。每个页面或者模块特定的业务组件则写在当前目录下面。这样拆分能大大减轻了维护成本。
 
-如：`@/views/article/components/xxx.vue`。
+如：`@/views/client/list/components/MenuBar.vue`。
 
 **请记住拆分组件最大的好处不是公用而是可维护性！**
 
+
+## 新增 api
+
+同样的，我们按照页面的模块，在 `@/api` 文件夹下创建对应的 api 服务：
+
+```
+api/
+|- client/
+   |- list.js
+   |- tags.js
+```
 
 
 <br>

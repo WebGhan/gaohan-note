@@ -1,0 +1,466 @@
+# 列表页案例
+
+## 目录结构
+
+```
+api/
+|- example/
+   |- list.js
+
+router/
+|- modules/
+   |- example/
+      |- list.js
+|- index.js
+
+views/
+|- example/
+   |- list/
+      |- components/
+         |- Editor.vue
+         |- MenuBar.vue
+         |- index.js
+      |- index.vue
+```
+
+
+## api
+
+```js
+import request from '@/utils/request'
+
+// 获取 列表
+export function fetchList(params) {
+  return request({
+    url: '/example/index',
+    method: 'GET',
+    params
+  })
+}
+
+// 获取 项
+export function fetchItem(id) {
+  return request({
+    url: `/example/${id}`,
+    method: 'GET'
+  })
+}
+
+// 创建 项
+export function createItem(data) {
+  return request({
+    url: '/example/store',
+    method: 'POST',
+    data
+  })
+}
+
+// 更新 项
+export function updateItem(id, data) {
+  return request({
+    url: `/example/${id}`,
+    method: 'PUT',
+    data
+  })
+}
+
+// 删除 项
+export function deleteItem(id) {
+  return request({
+    url: `/example/${id}`,
+    method: 'DELETE'
+  })
+}
+```
+
+
+## index.vue
+
+列表作为页面的主体放在 `/list/index.vue` 中，菜单栏和表单都是主体的延伸，抽离成单独的组件。
+
+代码如下：
+
+```html
+<template>
+  <div class="g-app-container-flex">
+    <!-- 菜单栏 -->
+    <MenuBar
+      class="menu-bar"
+      :filtrate-loading="listLoading"
+      @filtrate="handleFiltrate"
+      @create="showEditor(false)"
+    />
+
+    <!-- 列表 -->
+    <el-table
+      ref="table"
+      v-loading="listLoading"
+      :data="list"
+      size="medium"
+      height="auto"
+      style="width: 100%;"
+    >
+      <el-table-column label="ID" prop="id" width="100" />
+      <el-table-column label="字段1" prop="field-1" width="200" />
+      <el-table-column label="字段2" prop="field-2" width="200" />
+      <el-table-column label="字段3" prop="field-3" width="200" />
+
+      <el-table-column label="操作" min-width="160" fixed="right">
+        <template slot-scope="scope">
+          <el-button
+            type="primary"
+            size="mini"
+            @click="showEditor(scope.row)"
+          >
+            编辑
+          </el-button>
+          <el-button
+            type="danger"
+            size="mini"
+            :loading="deleteLoading === scope.row.id"
+            @click="handleDelete(scope.row.id)"
+          >
+            删除
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <!-- 列表分页 -->
+    <Pagination
+      :total="listTotal"
+      :page-size.sync="listQuery.limit"
+      :current-page.sync="listQuery.page"
+      @change="pageChange"
+    />
+
+    <!-- 编辑 -->
+    <Editor
+      ref="editor"
+      @change="getList"
+    />
+  </div>
+</template>
+
+<script>
+import { fetchList, deleteItem } from '@/api/example/list'
+import { Editor, MenuBar } from './components'
+import { Pagination } from '@/components'
+
+export default {
+  name: 'UserList',
+  components: {
+    Editor,
+    MenuBar,
+    Pagination
+  },
+  data() {
+    return {
+      list: [],
+      listLoading: false,
+      listTotal: 0,
+      listQuery: {
+        page: 1,
+        limit: 20
+      },
+      deleteLoading: 0
+    }
+  },
+  created() {
+    this.getList()
+  },
+  methods: {
+    // 显示编辑
+    showEditor(item) {
+      this.$refs['editor'].showDialog(item)
+    },
+    // 获取列表
+    async getList() {
+      this.listLoading = true
+      try {
+        const res = await fetchList(this.listQuery)
+        this.list = res.data
+        this.listTotal = res.meta.total
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.listLoading = false
+      }
+    },
+    // 修改分页
+    pageChange() {
+      this.getList()
+      this.$refs.table.bodyWrapper.scrollTop = 0
+    },
+    // 处理筛选
+    handleFiltrate(filterForm) {
+      this.listQuery = { ...this.listQuery, ...filterForm }
+      this.listQuery.page = 1
+      this.getList()
+      this.$refs.table.bodyWrapper.scrollTop = 0
+    },
+    // 处理删除
+    async handleDelete(id) {
+      if (this.deleteLoading) { return }
+      this.deleteLoading = id
+      try {
+        const confirm = await this.$confirm(
+          '确定要删除吗?',
+          '提示',
+          { type: 'warning' }
+        )
+        if (confirm !== 'confirm') { return }
+        await deleteItem(id)
+        this.getList()
+        this.$message.success('删除成功')
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.deleteLoading = 0
+      }
+    }
+  }
+}
+</script>
+```
+
+
+## MenuBar.vue
+
+```html
+<template>
+  <div class="g-filter-container">
+    <el-form
+      inline
+      label-suffix=":"
+      size="mini"
+      @submit.native.prevent
+    >
+      <el-form-item label="标题">
+        <el-input
+          v-model="filterForm.title"
+          clearable
+          @keyup.enter.native="handleFiltrate"
+        />
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          icon="el-icon-search"
+          type="primary"
+          :loading="filtrateLoading"
+          @click="handleFiltrate"
+        >
+          搜索
+        </el-button>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          icon="el-icon-plus"
+          type="primary"
+          @click="handleCreate"
+        >
+          添加
+        </el-button>
+      </el-form-item>
+    </el-form>
+  </div>
+</template>
+
+<script>
+import { debounce } from 'throttle-debounce'
+
+export default {
+  name: 'MenuBar',
+  props: {
+    filtrateLoading: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data() {
+    return {
+      filterForm: {
+        title: ''
+      }
+    }
+  },
+  methods: {
+    // 搜索
+    handleFiltrate: debounce(500, true, function() {
+      this.$emit('filtrate', this.filterForm)
+    }),
+    // 创建
+    handleCreate() {
+      this.$emit('create')
+    }
+  }
+}
+</script>
+```
+
+
+## Editor.vue
+
+一般，用于编辑和创建的表单是放在一个弹窗中的，我们将相应的逻辑抽离到 `/list/components/Editor.vue` 中：
+
+```html
+<template>
+  <el-dialog
+    :visible.sync="visible"
+    :close-on-click-modal="false"
+    :title="type === 'create' ? '创建' : '编辑'"
+    width="700px"
+    @close="resetForm"
+  >
+    <!-- 表单 -->
+    <el-form
+      ref="form"
+      v-loading="itemLoading"
+      :model="formData"
+      :rules="formRules"
+      label-width="100px"
+      size="medium"
+    >
+      <el-form-item label="标题" prop="title">
+        <el-input v-model="formData.title" />
+      </el-form-item>
+    </el-form>
+
+    <!-- footer -->
+    <div slot="footer">
+      <el-button
+        size="medium"
+        @click="visible = false"
+      >
+        取 消
+      </el-button>
+      <template v-if="type === 'create'">
+        <el-button
+          size="medium"
+          type="primary"
+          :loading="submitLoading"
+          @click="submitForm"
+        >
+          创 建
+        </el-button>
+      </template>
+      <template v-if="type === 'update'">
+        <el-button
+          size="medium"
+          type="primary"
+          :loading="submitLoading"
+          @click="submitForm"
+        >
+          保 存
+        </el-button>
+      </template>
+    </div>
+  </el-dialog>
+</template>
+
+<script>
+import { fetchItem, createItem, updateItem } from '@/api/example/list'
+
+export default {
+  name: 'Editor',
+  data() {
+    return {
+      visible: false,
+      type: 'create', // create 创建， update 编辑
+      formData: this.defaultForm(),
+      formRules: {
+        title: [
+          { required: true, message: '请输入标题', trigger: 'blur' }
+        ]
+      },
+      submitLoading: false,
+      itemLoading: false
+    }
+  },
+  methods: {
+    // 显示弹窗
+    async showDialog(item) {
+      if (item) {
+        this.type = 'update'
+        const itemData = await this.getItem(item.id)
+        const formData = {}
+        for (const key in this.formData) {
+          formData[key] = itemData[key]
+        }
+        this.formData = formData
+      } else {
+        this.type = 'create'
+      }
+      this.visible = true
+    },
+    // 重置表单
+    resetForm() {
+      this.formData = this.defaultForm()
+      this.$nextTick(() => {
+        this.$refs['form'].clearValidate()
+      })
+    },
+    // 默认表单
+    defaultForm() {
+      return {
+        title: ''
+      }
+    },
+    // 提交表单
+    submitForm() {
+      if (this.submitLoading) { return }
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          if (this.type === 'create') {
+            this.handleCreate()
+          } else {
+            this.handleUpdate()
+          }
+        }
+      })
+    },
+    // 创建
+    async handleCreate() {
+      this.submitLoading = true
+      try {
+        await createItem(this.formData)
+        this.visible = false
+        this.$emit('change')
+        this.$message.success('创建成功')
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.submitLoading = false
+      }
+    },
+    // 更新
+    async handleUpdate() {
+      this.submitLoading = true
+      try {
+        await updateItem(this.formData.id, this.formData)
+        this.visible = false
+        this.$emit('change')
+        this.$message.success('保存成功')
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.submitLoading = false
+      }
+    },
+    // 获取单个详情
+    async getItem(id) {
+      this.itemLoading = true
+      try {
+        return await fetchItem(id)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.itemLoading = false
+      }
+    }
+  }
+}
+</script>
+```
+
+## Editor.vue

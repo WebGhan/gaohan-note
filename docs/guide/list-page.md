@@ -1,17 +1,28 @@
 # 列表页案例
 
+一般后台管理大体是这样的结构：
+
+![后台页面结构](/page-layout.jpg)
+
+做出来的效果大概是这样的：
+
+![列表页效果](/page-list.png)
+
+将表单放在弹窗中：
+
+![列表页效果](/page-editor.png)
+
 ## 目录结构
 
 ```
+router/
+|- modules/
+   |- example.js
+|- index.js
+
 api/
 |- example/
    |- list.js
-
-router/
-|- modules/
-   |- example/
-      |- list.js
-|- index.js
 
 views/
 |- example/
@@ -21,6 +32,51 @@ views/
          |- MenuBar.vue
          |- index.js
       |- index.vue
+```
+
+
+## router
+
+`@/router/modules/example.js`
+
+```js
+import Layout from '@/layout'
+
+const ExampleRouter = {
+  name: 'Example',
+  path: '/example',
+  redirect: '/example/list',
+  component: Layout,
+  meta: {
+    title: '示例',
+    icon: 'el-icon-files'
+  },
+  children: [
+    {
+      path: 'list',
+      name: 'ExampleList',
+      component: () => import('@/views/example/list'),
+      meta: { title: '列表示例' }
+    }
+  ]
+}
+
+export default ExampleRouter
+```
+
+`@/router/index.js`
+
+```js
+import ExampleRouter from '@/router/modules/example'
+
+// ...
+
+export const asyncRoutes = [
+  ExampleRouter,
+  // ...
+]
+
+// ...
 ```
 
 
@@ -225,7 +281,10 @@ export default {
 ```
 
 
-## MenuBar.vue
+
+## components
+
+### MenuBar.vue
 
 ```html
 <template>
@@ -299,7 +358,7 @@ export default {
 ```
 
 
-## Editor.vue
+### Editor.vue
 
 一般，用于编辑和创建的表单是放在一个弹窗中的，我们将相应的逻辑抽离到 `/list/components/Editor.vue` 中：
 
@@ -463,4 +522,12 @@ export default {
 </script>
 ```
 
-## Editor.vue
+
+### index.js
+
+用 `index.js` 将组件统一导出，方便之后导入。
+
+```js
+export { default as MenuBar } from './MenuBar'
+export { default as Editor } from './Editor'
+```

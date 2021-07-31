@@ -192,7 +192,7 @@ export function deleteItem(id) {
 
     <!-- 编辑 -->
     <Editor
-      ref="editor"
+      ref="Editor"
       @change="getList"
     />
   </div>
@@ -228,7 +228,7 @@ export default {
   methods: {
     // 显示编辑
     showEditor(item) {
-      this.$refs['editor'].showDialog(item)
+      this.$refs['Editor'].open(item)
     },
     // 获取列表
     async getList() {
@@ -279,7 +279,6 @@ export default {
 }
 </script>
 ```
-
 
 
 ## components
@@ -440,7 +439,7 @@ export default {
   },
   methods: {
     // 显示弹窗
-    async showDialog(item) {
+    async open(item) {
       if (item) {
         this.type = 'update'
         const itemData = await this.getItem(item.id)

@@ -8,7 +8,7 @@
 
 ![列表页效果](http://r.photo.store.qq.com/psc?/V14cZO134WCGDx/TmEUgtj9EK6.7V8ajmQrEBihhbFUvRfmXgBFeceJXfOyNFbTWYlOmZxh3VKKhJV*wJehm0bCCxGekuz68wVStMR4*ZwgDkQM5ZeYOJdjAz8!/r)
 
-将表单放在弹窗中：
+Modal 表单：
 
 ![列表页效果](http://r.photo.store.qq.com/psc?/V14cZO134WCGDx/TmEUgtj9EK6.7V8ajmQrEKZbk3R5.W89KxzVgEYWpqRIGTRYVk921R2eix.cY4otXv9n5nKOtIj1sVEien4Htjpv2z3I*4WdFS.Fyc7gcfY!/r)
 
@@ -286,6 +286,8 @@ export default {
 
 ### MenuBar.vue
 
+我们将菜单栏抽离到 `/list/components/MenuBar.vue` 中：
+
 ```html
 <template>
   <div class="g-filter-container">
@@ -360,7 +362,7 @@ export default {
 
 ### Editor.vue
 
-一般，用于编辑和创建的表单是放在一个弹窗中的，我们将相应的逻辑抽离到 `/list/components/Editor.vue` 中：
+我们将 Modal 表单抽离到 `/list/components/Editor.vue` 中：
 
 ```html
 <template>
@@ -525,7 +527,7 @@ export default {
 
 ### index.js
 
-用 `index.js` 将组件统一导出，方便之后导入。
+用 `/list/components/index.js` 将组件统一导出，方便之后导入。
 
 ```js
 export { default as MenuBar } from './MenuBar'

@@ -445,7 +445,7 @@ export default {
         const itemData = await this.getItem(item.id)
         const formData = {}
         for (const key in this.formData) {
-          if (itemData[key]) {
+          if (itemData[key] !== undefined) {
             formData[key] = itemData[key]
           }
         }

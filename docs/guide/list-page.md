@@ -434,6 +434,7 @@ export default {
         ]
       },
       submitLoading: false,
+      itemData: null,
       itemLoading: false
     }
   },
@@ -455,11 +456,11 @@ export default {
     async open(item) {
       if (item) {
         this.type = 'update'
-        const itemData = await this.getItem(item.id)
+        await this.getItem(item.id)
         const formData = {}
         for (const key in this.formData) {
-          if (itemData[key] !== undefined) {
-            formData[key] = itemData[key]
+          if (this.itemData[key] !== undefined) {
+            formData[key] = this.itemData[key]
           }
         }
         this.formData = { ...this.formData, ...formData }
@@ -472,8 +473,8 @@ export default {
     async getItem(id) {
       this.itemLoading = true
       try {
-        const res =  await fetchItem(id)
-        return res.data
+        const res = await fetchItem(id)
+        this.itemData = res.data
       } catch (error) {
         console.log(error)
       } finally {

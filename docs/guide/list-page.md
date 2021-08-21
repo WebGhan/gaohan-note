@@ -438,6 +438,19 @@ export default {
     }
   },
   methods: {
+    // 默认表单
+    defaultForm() {
+      return {
+        title: ''
+      }
+    },
+    // 重置表单
+    resetForm() {
+      this.formData = this.defaultForm()
+      this.$nextTick(() => {
+        this.$refs['form'].clearValidate()
+      })
+    },
     // 显示弹窗
     async open(item) {
       if (item) {
@@ -449,23 +462,22 @@ export default {
             formData[key] = itemData[key]
           }
         }
-        this.formData = formData
+        this.formData = { ...this.formData, ...formData }
       } else {
         this.type = 'create'
       }
       this.visible = true
     },
-    // 重置表单
-    resetForm() {
-      this.formData = this.defaultForm()
-      this.$nextTick(() => {
-        this.$refs['form'].clearValidate()
-      })
-    },
-    // 默认表单
-    defaultForm() {
-      return {
-        title: ''
+    // 获取单个详情
+    async getItem(id) {
+      this.itemLoading = true
+      try {
+        const res =  await fetchItem(id)
+        return res.data
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.itemLoading = false
       }
     },
     // 提交表单
@@ -507,17 +519,6 @@ export default {
         console.log(error)
       } finally {
         this.submitLoading = false
-      }
-    },
-    // 获取单个详情
-    async getItem(id) {
-      this.itemLoading = true
-      try {
-        return await fetchItem(id)
-      } catch (error) {
-        console.log(error)
-      } finally {
-        this.itemLoading = false
       }
     }
   }

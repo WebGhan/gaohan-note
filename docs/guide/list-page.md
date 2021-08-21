@@ -512,7 +512,7 @@ export default {
     async handleUpdate() {
       this.submitLoading = true
       try {
-        await updateItem(this.formData.id, this.formData)
+        await updateItem(this.itemData.id, this.formData)
         this.visible = false
         this.$emit('change')
         this.$message.success('保存成功')

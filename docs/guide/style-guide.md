@@ -67,8 +67,15 @@ export { default as TodoList } from './TodoList'
 导入方法：
 ```js
 import { Item, Button, TodoList } from './components'
+
 // 或
 import * as AllComponents from './components'
+
+export default {
+  components: {
+    ...AllComponents
+  }
+}
 ```
 
 

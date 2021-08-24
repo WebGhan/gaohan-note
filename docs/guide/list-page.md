@@ -280,6 +280,18 @@ export default {
 </script>
 ```
 
+部分老项目的`Pagination`组件可能没更新，需要替换，例如：linian-admin
+
+```html
+<Pagination
+  v-show="listTotal > 0"
+  :total="listTotal"
+  :page.sync="listQuery.page"
+  :limit.sync="listQuery.limit"
+  @pagination="pageChange"
+/>
+```
+
 
 ## components
 

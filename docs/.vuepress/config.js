@@ -20,7 +20,7 @@ module.exports = {
     ],
     sidebar: {
       '/guide/': [{
-        title: 'Vue 项目',
+        title: 'Vue2 项目',
         collapsable: false,
         sidebarDepth: 2,
         children: [

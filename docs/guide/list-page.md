@@ -303,6 +303,20 @@ export default {
           @keyup.enter.native="handleFiltrate"
         />
       </el-form-item>
+      <el-form-item label="状态">
+        <el-select
+          v-model="filterForm.status"
+          clearable
+          placeholder="请选择"
+        >
+          <el-option
+            v-for="item in statusOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button
           icon="el-icon-search"
@@ -340,8 +354,14 @@ export default {
   data() {
     return {
       filterForm: {
-        title: ''
-      }
+        title: '',
+        status
+      },
+      statusOptions: [
+        { label: '进行中', value: 'pending' },
+        { label: '成功', value: 'success' },
+        { label: '已取消', value: 'cancel' }
+      ]
     }
   },
   methods: {
@@ -356,6 +376,14 @@ export default {
   }
 }
 </script>
+```
+
+如果菜单栏只有「刷新」按钮，则发送`filtrate`事件时需要用一个空对象作为参数：
+
+```js
+handleFiltrate: debounce(500, true, function() {
+  this.$emit('filtrate', {})
+})
 ```
 
 

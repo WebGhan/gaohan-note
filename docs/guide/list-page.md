@@ -142,8 +142,8 @@ export function deleteItem(id) {
     <!-- 菜单栏 -->
     <MenuBar
       class="menu-bar"
-      :filtrate-loading="listLoading"
-      @filtrate="handleFiltrate"
+      :filter-loading="listLoading"
+      @filter="handleFilter"
       @create="showEditor(false)"
     />
 
@@ -249,7 +249,7 @@ export default {
       this.$refs.table.bodyWrapper.scrollTop = 0
     },
     // 处理筛选
-    handleFiltrate(filterForm) {
+    handleFilter(filterForm) {
       this.listQuery = { ...this.listQuery, ...filterForm }
       this.listQuery.page = 1
       this.getList()
@@ -312,7 +312,7 @@ export default {
         <el-input
           v-model="filterForm.title"
           clearable
-          @keyup.enter.native="handleFiltrate"
+          @keyup.enter.native="handleFilter"
         />
       </el-form-item>
       <el-form-item label="状态">
@@ -333,8 +333,8 @@ export default {
         <el-button
           icon="el-icon-search"
           type="primary"
-          :loading="filtrateLoading"
-          @click="handleFiltrate"
+          :loading="filterLoading"
+          @click="handleFilter"
         >
           搜索
         </el-button>
@@ -358,7 +358,7 @@ import { debounce } from 'throttle-debounce'
 export default {
   name: 'MenuBar',
   props: {
-    filtrateLoading: {
+    filterLoading: {
       type: Boolean,
       default: false
     }
@@ -378,8 +378,8 @@ export default {
   },
   methods: {
     // 搜索
-    handleFiltrate: debounce(500, true, function() {
-      this.$emit('filtrate', this.filterForm)
+    handleFilter: debounce(500, true, function() {
+      this.$emit('filter', this.filterForm)
     }),
     // 创建
     handleCreate() {
@@ -390,11 +390,11 @@ export default {
 </script>
 ```
 
-如果菜单栏只有「刷新」按钮，则发送`filtrate`事件时需要用一个空对象作为参数：
+如果菜单栏只有「刷新」按钮，则发送`filter`事件时需要用一个空对象作为参数：
 
 ```js
-handleFiltrate: debounce(500, true, function() {
-  this.$emit('filtrate', {})
+handleFilter: debounce(500, true, function() {
+  this.$emit('filter', {})
 })
 ```
 

@@ -1,5 +1,5 @@
 module.exports = {
-  base: '/gaohan-note/',
+  base: '/gaohan-note',
   title: '前端笔记',
   description: '只争朝夕，不负韶华',
   head: [

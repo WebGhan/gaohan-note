@@ -144,7 +144,7 @@ export function deleteItem(id) {
       class="menu-bar"
       :filter-loading="listLoading"
       @filter="handleFilter"
-      @create="showEditor(false)"
+      @create="openEditor(false)"
     />
 
     <!-- 列表 -->
@@ -166,7 +166,7 @@ export function deleteItem(id) {
           <el-button
             type="primary"
             size="mini"
-            @click="showEditor(scope.row)"
+            @click="openEditor(scope.row)"
           >
             编辑
           </el-button>
@@ -226,8 +226,8 @@ export default {
     this.getList()
   },
   methods: {
-    // 显示编辑
-    showEditor(item) {
+    // 打开编辑
+    openEditor(item) {
       this.$refs['Editor'].open(item)
     },
     // 获取列表

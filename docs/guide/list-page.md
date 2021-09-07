@@ -494,6 +494,7 @@ export default {
     },
     // 显示弹窗
     async open(item) {
+      this.visible = true
       if (item) {
         this.type = 'update'
         await this.getItem(item.id)
@@ -507,7 +508,6 @@ export default {
       } else {
         this.type = 'create'
       }
-      this.visible = true
     },
     // 获取单个详情
     async getItem(id) {

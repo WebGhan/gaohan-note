@@ -156,7 +156,7 @@ export function deleteItem(id) {
       height="auto"
       style="width: 100%;"
     >
-      <el-table-column label="ID" prop="id" width="100" />
+      <el-table-column label="ID" prop="id" width="80" />
       <el-table-column label="字段1" prop="field-1" width="200" />
       <el-table-column label="字段2" prop="field-2" width="200" />
       <el-table-column label="字段3" prop="field-3" width="200" />
@@ -575,4 +575,191 @@ export default {
 ```js
 export { default as MenuBar } from './MenuBar'
 export { default as Editor } from './Editor'
+```
+
+
+## 其他组件
+
+### Drawer 列表组件
+
+有时候可能还需要添加一个列表作为详情，我们把这个列表放在 Drawer 组件中，例如：
+
+![Drawer列表组件](http://r.photo.store.qq.com/psc?/V14cZO134WCGDx/TmEUgtj9EK6.7V8ajmQrEMc3WDk9jeKnNGk3mSilelIX22Hr6AkBGrMo4Q4luopEvyVCrSrrMwTxOkXYB9HT9bNH6R3lNsJVkQryTqxipz0!/r)
+
+代码示例：
+
+```html
+<template>
+  <el-drawer
+    title="我是标题"
+    :visible.sync="visible"
+    size="800px"
+  >
+    <div class="g-drawer-container-flex">
+      <!-- 菜单栏 -->
+      <div class="g-filter-container">
+        <el-form inline label-suffix=":" size="mini" @submit.native.prevent>
+          <el-form-item label="名称">
+            <el-input v-model="listQuery.title" placeholder="请输入名称" clearable @keyup.enter.native="handleFilter" />
+          </el-form-item>
+          <el-form-item>
+            <el-button icon="el-icon-search" type="primary" :loading="listLoading" @click="handleFilter">搜索</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+
+      <!-- 列表 -->
+      <el-table
+        ref="table"
+        v-loading="listLoading"
+        :data="list"
+        size="mini"
+        height="auto"
+        style="width: 100%;"
+        border
+      >
+        <el-table-column label="ID" prop="id" width="80" />
+        <el-table-column label="字段1" prop="field-1" width="200" />
+        <el-table-column label="字段2" prop="field-2" width="200" />
+        <el-table-column label="字段3" prop="field-3" min-width="200" />
+      </el-table>
+
+      <!-- 列表分页 -->
+      <Pagination
+        :total="listTotal"
+        :page-size.sync="listQuery.limit"
+        :current-page.sync="listQuery.page"
+        @change="pageChange"
+      />
+    </div>
+  </el-drawer>
+</template>
+
+<script>
+import { fetchList } from '@/api/example/list'
+import { Pagination } from '@/components'
+
+export default {
+  name: 'Detail',
+  components: {
+    Pagination
+  },
+  data() {
+    return {
+      visible: false,
+      itemId: '',
+      list: [],
+      listLoading: false,
+      listTotal: 0,
+      listQuery: {
+        title: '',
+        page: 1,
+        limit: 20
+      }
+    }
+  },
+  mounted() {
+    this.getList()
+  },
+  methods: {
+    // 显示弹窗
+    open(id) {
+      this.visible = true
+      this.listQuery.page = 1
+      this.itemId = id
+      this.getList()
+    },
+    // 获取列表
+    async getList() {
+      this.listLoading = true
+      try {
+        const res = await fetchList(this.listQuery)
+        this.list = res.data
+        this.listTotal = res.meta.total
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.listLoading = false
+      }
+    },
+    // 修改分页
+    pageChange() {
+      this.getList()
+      this.$refs.table.bodyWrapper.scrollTop = 0
+    },
+    // 处理筛选
+    handleFilter() {
+      this.listQuery.page = 1
+      this.getList()
+      this.$refs.table.bodyWrapper.scrollTop = 0
+    }
+  }
+}
+</script>
+```
+
+
+## 权限验证
+
+### 配置权限
+
+在后台「权限管理」页面，进行权限配置，注意权限的「标识」将用于前端权限验证。
+
+![配置权限](http://r.photo.store.qq.com/psc?/V14cZO134WCGDx/TmEUgtj9EK6.7V8ajmQrEGOV5DN1D0LeeB7.olnYpGCSvw7a.3yB0udkg6XQd40uAbr5G0RnnyrjBfbag1ulNHP*pEZHUMgju7mRCMnBi*c!/r)
+
+
+### 路由权限
+
+在 route 的 meta 属性里配置 roles 即可 (部分项目是 identify)
+
+```js
+import Layout from '@/layout'
+
+const SystemRouter = {
+  name: 'System',
+  path: '/system',
+  redirect: '/system/permission',
+  component: Layout,
+  meta: {
+    title: '系统设置',
+    icon: 'el-icon-setting',
+    roles: ['system'] // 此处添加权限「system」
+  },
+  children: [
+    {
+      path: 'permission',
+      name: 'SystemPermission',
+      component: () => import('@/views/system/permission/index'),
+      meta: { title: '权限管理', roles: ['system-permission'] } // 此处添加权限「system-permission」
+    }
+  ]
+}
+
+export default SystemRouter
+```
+
+
+### 菜单权限
+
+使用全局权限判断函数：
+
+`checkPermission()` 方法接受一个字符串数组作为参数，返回一个布尔值。
+
+```vue
+<template>
+  <el-tab-pane v-if="checkPermission(['admin'])" label="Admin">Admin can see this</el-tab-pane>
+  <el-tab-pane v-if="checkPermission(['editor'])" label="Editor">Editor can see this</el-tab-pane>
+  <el-tab-pane v-if="checkPermission(['admin','editor'])" label="Admin-OR-Editor">Both admin or editor can see this</el-tab-pane>
+</template>
+
+<script>
+import checkPermission from '@/utils/permission'
+
+export default{
+  methods: {
+    // 权限判断函数
+    checkPermission
+  }
+}
+</script>
 ```

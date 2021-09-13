@@ -658,9 +658,6 @@ export default {
       }
     }
   },
-  mounted() {
-    this.getList()
-  },
   methods: {
     // 显示弹窗
     open(id) {
@@ -673,7 +670,7 @@ export default {
     async getList() {
       this.listLoading = true
       try {
-        const res = await fetchList(this.listQuery)
+        const res = await fetchList(this.itemId, this.listQuery)
         this.list = res.data
         this.listTotal = res.meta.total
       } catch (error) {

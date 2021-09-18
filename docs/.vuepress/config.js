@@ -28,6 +28,7 @@ module.exports = {
           'style-guide.md',
           'new-page.md',
           'list-page.md',
+          'permission.md',
         ]
       }],
       '/standard/': [{
@@ -45,5 +46,7 @@ module.exports = {
     editLinkText: '在 GitHub 上编辑此页',
     smoothScroll: true
   },
-  plugins: [['vuepress-plugin-code-copy', true]]
+  plugins: [
+    ['vuepress-plugin-code-copy', true]
+  ]
 }

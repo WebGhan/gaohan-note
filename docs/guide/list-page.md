@@ -641,11 +641,14 @@ export { default as Editor } from './Editor'
       </el-table>
 
       <!-- 列表分页 -->
-      <Pagination
+      <el-pagination
+        v-show="listTotal > 0"
+        style="flex-shrink: 0; margin-top: 15px;"
+        background
+        layout="prev, pager, next"
         :total="listTotal"
-        :page-size.sync="listQuery.limit"
         :current-page.sync="listQuery.page"
-        @change="pageChange"
+        @current-change="pageChange"
       />
     </div>
   </el-drawer>
@@ -653,13 +656,9 @@ export { default as Editor } from './Editor'
 
 <script>
 import { fetchList } from '@/api/example/list'
-import { Pagination } from '@/components'
 
 export default {
   name: 'Detail',
-  components: {
-    Pagination
-  },
   data() {
     return {
       visible: false,

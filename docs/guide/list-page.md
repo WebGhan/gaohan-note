@@ -648,6 +648,7 @@ export { default as Editor } from './Editor'
         layout="prev, pager, next"
         :total="listTotal"
         :current-page.sync="listQuery.page"
+        :page-size="listQuery.limit"
         @current-change="pageChange"
       />
     </div>

@@ -607,7 +607,7 @@ export { default as Editor } from './Editor'
 ```html
 <template>
   <el-drawer
-    title="我是标题"
+    :title="title"
     :visible.sync="visible"
     size="800px"
   >
@@ -663,6 +663,7 @@ export default {
   data() {
     return {
       visible: false,
+      title: '我是标题',
       itemId: '',
       list: [],
       listLoading: false,

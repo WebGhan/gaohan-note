@@ -676,10 +676,10 @@ export default {
   },
   methods: {
     // 显示弹窗
-    open(id) {
+    open(item) {
       this.visible = true
       this.listQuery.page = 1
-      this.itemId = id
+      this.itemId = item.id
       this.getList()
     },
     // 获取列表

@@ -486,7 +486,7 @@ export default {
       formData: this.defaultForm(),
       formRules: {
         title: [
-          { required: true, message: '请输入标题', trigger: 'blur' }
+          { required: true, message: '请输入标题', trigger: 'change' }
         ]
       },
       submitLoading: false,

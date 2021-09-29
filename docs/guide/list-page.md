@@ -366,7 +366,7 @@ export default {
     return {
       filterForm: {
         title: '',
-        status
+        status: ''
       },
       statusOptions: [
         { label: '进行中', value: 'pending' },

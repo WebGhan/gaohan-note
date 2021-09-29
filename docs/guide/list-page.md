@@ -141,7 +141,6 @@ export function deleteItem(id) {
   <div class="g-app-container-flex">
     <!-- 菜单栏 -->
     <MenuBar
-      class="menu-bar"
       :filter-loading="listLoading"
       @filter="handleFilter"
       @create="openEditor(false)"

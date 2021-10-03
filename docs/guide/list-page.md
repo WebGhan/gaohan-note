@@ -55,7 +55,7 @@ const ExampleRouter = {
     {
       path: 'list',
       name: 'ExampleList',
-      component: () => import('@/views/example/list'),
+      component: () => import('@/views/example/list/index'),
       meta: { title: '列表示例' }
     }
   ]

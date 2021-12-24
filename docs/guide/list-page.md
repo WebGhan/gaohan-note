@@ -79,6 +79,16 @@ export const asyncRoutes = [
 // ...
 ```
 
+### 三级路由嵌套
+
+三级路由嵌套的情况下，需要在二级目录的根文件下添加一个 `index.vue` 文件：
+
+```html
+<template>
+  <view-router />
+</template>
+```
+
 
 ## api
 

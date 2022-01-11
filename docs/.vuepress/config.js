@@ -1,6 +1,6 @@
 module.exports = {
   base: '/gaohan-note/',
-  title: '前端笔记',
+  title: '项目规范',
   description: '只争朝夕，不负韶华',
   head: [
     ['link', { rel: 'icon', href: '/hero.png' }]
@@ -8,40 +8,45 @@ module.exports = {
 
   themeConfig: {
     repo: 'WebGhan/gaohan-note',
-    nav: [
-      {
-        text: '项目指南',
-        link: '/guide/',
-      },
-      // {
-      //   text: '规范',
-      //   link: '/standard/',
-      // }
-    ],
+    // nav: [
+    //   {
+    //     text: '指南',
+    //     link: '/guide/',
+    //   }
+    // ],
     sidebar: {
-      '/guide/': [{
-        title: 'Vue2 项目',
-        collapsable: false,
-        sidebarDepth: 2,
-        children: [
-          '',
-          'style-guide.md',
-          'new-page.md',
-          'list-page.md',
-          'permission.md',
-        ]
-      }],
-      '/standard/': [{
-        title: '规范',
-        collapsable: false,
-        sidebarDepth: 2,
-        children: [
-          '',
-          'vue-style-guide',
-          'vue-directory',
-          'css-style-guide',
-        ]
-      }]
+      '/': [
+        {
+          title: '基础',
+          collapsable: false,
+          sidebarDepth: 2,
+          children: [
+            '/guide/standard-js',
+            '/guide/standard-css',
+          ]
+        },
+        {
+          title: 'Vue2 项目',
+          collapsable: false,
+          sidebarDepth: 2,
+          children: [
+            '/guide/',
+            '/guide/style-guide',
+            '/guide/new-page',
+            '/guide/list-page',
+            '/guide/permission',
+          ]
+        },
+        // {
+        //   title: '规范',
+        //   collapsable: false,
+        //   sidebarDepth: 2,
+        //   children: [
+        //     '/guide/vue-style-guide',
+        //     '/guide/vue-directory'
+        //   ]
+        // }
+      ]
     },
     editLinkText: '在 GitHub 上编辑此页',
     smoothScroll: true

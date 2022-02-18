@@ -1,4 +1,4 @@
-# 列表页示例
+# 列表页范例
 
 一般后台管理大体是这样的结构：
 
@@ -77,16 +77,6 @@ export const asyncRoutes = [
 ]
 
 // ...
-```
-
-### 三级路由嵌套
-
-三级路由嵌套的情况下，需要在二级目录的根文件下添加一个 `index.vue` 文件：
-
-```html
-<template>
-  <view-router />
-</template>
 ```
 
 

@@ -9,7 +9,7 @@
 
 ## 路由权限
 
-在 route 的 meta 属性里配置 roles 即可 (之前的项目有的可能是 identify，已实际项目为准)
+在 route 的 meta 属性里配置 roles 即可：
 
 ```js
 import Layout from '@/layout'

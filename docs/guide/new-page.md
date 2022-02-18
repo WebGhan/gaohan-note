@@ -1,13 +1,13 @@
 # 新增页面
 
-项目比较复杂时，我们需要将页面按不同模块进行分组，这样不仅便于维护，用户使用起来也清晰明了。
+项目比较复杂时，我们需要将页面按不同模块进行分组，便于维护。
 
 
 ## 新增 route
 
-首先在 `@/router` 中增加你需要添加的路由，我们将不同的模块拆分到 `@/router/modules` 中去。
+首先在 `src/router` 中增加需要添加的路由，我们将不同的模块拆分到 `src/router/modules` 中去。
 
-如：新增一个 Client 模块，里面包含「客户列表页」和「客户标签页」
+例如：新增一个 Client 模块，里面包含「客户列表页」和「客户标签页」
 
 ```
 router/
@@ -16,7 +16,7 @@ router/
 |- index.js
 ```
 
-`@/router/modules/client.js`
+`src/router/modules/client.js`
 
 ```js
 import Layout from '@/layout'
@@ -51,7 +51,9 @@ export default ClientRouter
 
 ## 新增 view
 
-新增完路由之后要在 `@/views` 文件下创建对应的文件夹，一般一个路由对应一个文件，该模块下的功能组件或者方法就直接放在该目录下的 `utils` 或 `components` 文件夹中，各个功能模块维护自己的 `utils` 或 `components` 组件。如：
+新增完路由之后要在 `src/views` 目录下创建代表路由的组件文件 `index.vue`，该文件放在页面命名的目录下，与之相关的局部组件就放在该目录下的 `components` 目录中。
+
+例如：
 
 ```
 client/
@@ -67,9 +69,9 @@ client/
 
 ## 新增 component
 
-全局的 `@/components` 只应当放一些全局的组件，如富文本、图片管理、封装的分页组件等等能被公用的组件。每个页面或者模块特定的业务组件则写在当前目录下面。这样拆分能大大减轻了维护成本。
+`src/components` 目录下只应当放一些全局的组件，如富文本、图片管理、封装的分页组件等能被公用的组件。模块特定的业务组件则写在当前目录下面。这样拆分能大大减轻了维护成本。
 
-如：`@/views/client/list/components/MenuBar.vue`。
+如：`src/views/client/list/components/MenuBar.vue`。
 
 ::: tip
 请记住拆分组件最大的好处不是公用而是可维护性！
@@ -78,7 +80,7 @@ client/
 
 ## 新增 api
 
-同样的，我们按照页面的模块，在 `@/api` 文件夹下创建对应的 api 服务：
+同样的，我们按照页面的模块，在 `src/api` 目录下创建对应的 api 服务：
 
 ```
 api/
@@ -90,6 +92,27 @@ api/
 <br>
 <br>
 
-> *参考文档：*
->
-> [1] vue-element-admin[《新增页面》](https://panjiachen.github.io/vue-element-admin-site/zh/guide/essentials/new-page.html)
+## 多级路由嵌套
+
+多级路由嵌套别忘了添加 `<router-view>`
+
+例如三级路由嵌套的情况下，需要在二级目录的根文件下添加一个 `<router-view>` ：
+
+```
+nested/
+|- menu1/
+  |- menu1-1/
+    |- index.vue
+  |- menu1-2/
+    |- index.vue
+  |- menu1-3/
+    |- index.vue
+  |- index.vue
+```
+
+`nested/menu1/index.vue` 中添加 `<router-view>` ：
+```html
+<template>
+  <view-router />
+</template>
+```

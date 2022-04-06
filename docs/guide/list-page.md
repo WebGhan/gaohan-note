@@ -622,9 +622,9 @@ export { default as Editor } from './Editor'
         border
       >
         <el-table-column label="ID" prop="id" width="80" />
-        <el-table-column label="字段1" prop="field-1" width="200" />
-        <el-table-column label="字段2" prop="field-2" width="200" />
-        <el-table-column label="字段3" prop="field-3" min-width="200" />
+        <el-table-column label="字段1" prop="field_1" width="200" />
+        <el-table-column label="字段2" prop="field_2" width="200" />
+        <el-table-column label="字段3" prop="field_3" min-width="200" />
       </el-table>
 
       <!-- 列表分页 -->

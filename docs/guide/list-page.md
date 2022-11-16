@@ -2,15 +2,15 @@
 
 一般后台管理大体是这样的结构：
 
-![后台页面结构](http://r.photo.store.qq.com/psc?/V14cZO134WCGDx/TmEUgtj9EK6.7V8ajmQrEKWNLsbVLM2SLC8wrbQh71hAnK74NnnnZ70bZRr2xMrC71ickd3vkxKO5V17bRmQr35jHusYxRFTyXEfpLDufDM!/r)
+![后台页面结构](/page-layout.jpg)
 
 做出来的效果大概是这样的：
 
-![列表页效果](http://r.photo.store.qq.com/psc?/V14cZO134WCGDx/TmEUgtj9EK6.7V8ajmQrEBihhbFUvRfmXgBFeceJXfOyNFbTWYlOmZxh3VKKhJV*wJehm0bCCxGekuz68wVStMR4*ZwgDkQM5ZeYOJdjAz8!/r)
+![列表页效果](/page-list.png)
 
 Modal 表单：
 
-![列表页效果](http://r.photo.store.qq.com/psc?/V14cZO134WCGDx/TmEUgtj9EK6.7V8ajmQrEKZbk3R5.W89KxzVgEYWpqRIGTRYVk921R2eix.cY4otXv9n5nKOtIj1sVEien4Htjpv2z3I*4WdFS.Fyc7gcfY!/r)
+![列表页效果](/page-editor.png)
 
 ## 目录结构
 
@@ -587,7 +587,7 @@ export { default as Editor } from './Editor'
 
 有时候可能还需要添加一个列表作为详情，我们把这个列表放在 Drawer 组件中，例如：
 
-![Drawer列表组件](http://r.photo.store.qq.com/psc?/V14cZO134WCGDx/TmEUgtj9EK6.7V8ajmQrEMc3WDk9jeKnNGk3mSilelIX22Hr6AkBGrMo4Q4luopEvyVCrSrrMwTxOkXYB9HT9bNH6R3lNsJVkQryTqxipz0!/r)
+![Drawer列表组件](/page-drawer-table.png)
 
 代码示例：
 

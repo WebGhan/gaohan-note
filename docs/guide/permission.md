@@ -4,7 +4,7 @@
 
 在后台「权限管理」页面，进行权限配置，注意权限的「标识」将用于前端权限验证。
 
-![配置权限](http://r.photo.store.qq.com/psc?/V14cZO134WCGDx/TmEUgtj9EK6.7V8ajmQrEGOV5DN1D0LeeB7.olnYpGCSvw7a.3yB0udkg6XQd40uAbr5G0RnnyrjBfbag1ulNHP*pEZHUMgju7mRCMnBi*c!/r)
+![配置权限](/set-permission.png)
 
 
 ## 路由权限

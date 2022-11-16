@@ -2,15 +2,15 @@
 
 一般后台管理大体是这样的结构：
 
-![后台页面结构](/page-layout.jpg)
+![后台页面结构](./images/page-layout.jpg)
 
 做出来的效果大概是这样的：
 
-![列表页效果](/page-list.png)
+![列表页效果](./images/page-list.png)
 
 Modal 表单：
 
-![列表页效果](/page-editor.png)
+![列表页效果](./images/page-editor.png)
 
 ## 目录结构
 
@@ -587,7 +587,7 @@ export { default as Editor } from './Editor'
 
 有时候可能还需要添加一个列表作为详情，我们把这个列表放在 Drawer 组件中，例如：
 
-![Drawer列表组件](/page-drawer-table.png)
+![Drawer列表组件](./images/page-drawer-table.png)
 
 代码示例：
 

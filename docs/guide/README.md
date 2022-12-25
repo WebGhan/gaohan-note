@@ -4,6 +4,6 @@
 
 vue2 + elementUI
 
-仓库地址：[https://wudian.coding.net/p/wiki/d/admin-template/git](https://wudian.coding.net/p/wiki/d/admin-template/git)
+仓库地址：[https://github.com/WebGhan/admin-template-vue2](https://github.com/WebGhan/admin-template-vue2)
 
 基于 [vue-element-admin](https://panjiachen.github.io/vue-element-admin-site/zh/) 构建。
